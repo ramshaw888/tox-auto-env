@@ -18,12 +18,16 @@ req_option = '-r'
 
 @hookimpl
 def tox_configure(config):
-    for env in config.envconfigs:
+    set_envdir_for_envconfigs(config.envconfigs)
+
+
+def set_envdir_for_envconfigs(envconfigs):
+    for env in envconfigs:
         new_path = '{}-{}'.format(
-            config.envconfigs[env].envdir,
-            deps_hash(config.envconfigs[env].deps)
+            envconfigs[env].envdir,
+            deps_hash(envconfigs[env].deps)
         )
-        config.envconfigs[env].envdir = py.path.local(new_path)
+        envconfigs[env].envdir = py.path.local(new_path)
 
 
 def deps_hash(env_deps):
