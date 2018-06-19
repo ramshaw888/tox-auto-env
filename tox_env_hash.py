@@ -26,31 +26,22 @@ def tox_configure(config):
         config.envconfigs[env].envdir = py.path.local(new_path)
 
 
-def deps_hash(deps):
-    hash_l = []
-    for dep in deps:
+def deps_hash(env_deps):
+    dependencies = []
+    for dep in env_deps:
         dep_name = str(dep)
         if dep_name.startswith(req_option):
-            dep_str_repr = requirements_hash(dep_name)
+            dependencies += dependencies_from_requirements(dep_name)
         else:
-            dep_str_repr = dep_name
-        hash_l.append(str_to_sha1hex(dep_str_repr))
-    return str_to_sha1hex(''.join(sorted(hash_l)))
+            dependencies.append(dep_name)
+    dependencies_str = ''.join(sorted(dependencies))
+    return hashlib.sha1(dependencies_str.encode('utf-8')).hexdigest()
 
 
-def requirements_hash(req_file_name):
+def dependencies_from_requirements(req_file_name):
     req_file_name = req_file_name[len(req_option):]
-    pip_reqs = parse_pip_requirements(req_file_name)
-    return ''.join(pip_reqs)
-
-
-def parse_pip_requirements(requirement_file_path):
     requirements = parse_requirements(
-        requirement_file_path,
+        req_file_name,
         session=PipSession()
     )
-    return sorted(str(r.req) for r in requirements if r.req)
-
-
-def str_to_sha1hex(v):
-    return hashlib.sha1(v.encode('utf-8')).hexdigest()
+    return [str(r.req) for r in requirements if r.req]
