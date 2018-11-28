@@ -1,5 +1,7 @@
 # tox-auto-env
 
+[![CircleCI](https://circleci.com/gh/ramshaw888/tox-auto-env/tree/develop.svg?style=svg&circle-token=c1a0297fa1cebad4607a1a74226f1c05619d6b24)](https://circleci.com/gh/ramshaw888/tox-auto-env/tree/develop)
+
 The virtualenv behind your tox environments will always reflect the
 dependencies at the time of running. Never use `tox --recreate` again.
 
