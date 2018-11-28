@@ -1,5 +1,8 @@
 from setuptools import setup
 
+with open('README.md', 'r') as fh:
+    long_description = fh.read()
+
 setup(
     name='tox-auto-env',
     version='0.0.3a0',
@@ -7,5 +10,7 @@ setup(
     entry_points={'tox': ['tox-auto-env = tox_auto_env']},
     classifiers=['Framework :: tox'],
     description='Keeps your tox virtualenv always up to date with dependencies',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Aaron Ramshaw'
 )
