@@ -17,6 +17,10 @@ a hash of the dependencies that are installed in it. i.e. if you have 2
 branches with different dependencies, running tox on each of those branches
 will create 2 separate virtualenvs that will be used for those 2 branches.
 
+### How to use
+`tox-auto-env` is a `tox` plugin. Use `pip install tox-auto-env` to install.
+If installed correctly, it should show up when `tox --version` is run.
+
 
 ### Kudos
 Inspired by [tox-battery](https://github.com/signalpillar/tox-battery)
