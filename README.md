@@ -1,7 +1,7 @@
 # tox-env-hash
 
-Never use `tox --recreate` again. Virtualenvs created by tox are identified by
-the dependencies that are installed in it.
+Never use `tox --recreate` again. The virtualenv behind your tox environments
+will always reflect the dependencies at the time of running.
 
 ### Why
 When testing or developing you may be updating or adding dependencies in the
@@ -12,10 +12,10 @@ virtualenv so that those dependencies are correctly installed. Running `tox
 --recreate` does this by deleting that virtualenv and starting fresh.
 
 ### How it works
-When `tox-env-hash` is installed, virtualenvs created by tox are id'd by a hash
-of the dependencies that are installed in it. i.e. if you have 2 branches with
-different dependencies, running tox on each of those branches will create 2
-separate virtualenvs that will be used for those 2 branches.
+When `tox-env-hash` is installed, virtualenvs created by tox are identified by
+a hash of the dependencies that are installed in it. i.e. if you have 2
+branches with different dependencies, running tox on each of those branches
+will create 2 separate virtualenvs that will be used for those 2 branches.
 
 
 ### Kudos
