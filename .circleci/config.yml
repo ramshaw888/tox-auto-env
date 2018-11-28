@@ -16,6 +16,8 @@ jobs:
             - image: circleci/python:3.7
         steps:
             - checkout
+            - git config --global user.email "circleci@circleci.com"
+            - git config --global user.name "CircleCI"
             - run: pip install bump2version --user
             - run: echo 'export PATH=$PATH:/home/circleci/.local/bin' >> $BASH_ENV
             # Tag the current release
