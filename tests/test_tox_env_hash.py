@@ -17,10 +17,15 @@ def test_deps_hash():
 
 
 def test_envdir_for_envconfigs():
+    """Test that the envdir value is set correctly"""
+
     test_env_name = 'env_a'
     envconfig = MockEnvConfig(
         test_env_name, ['requests==2.1.0', 'marshmallow>=1.2.3', 'random']
     )
     pre_env_dir = envconfig.envdir
     tox_env_hash.set_envdir_for_envconfigs({test_env_name: envconfig})
-    assert envconfig.envdir == pre_env_dir
+    assert envconfig.envdir != pre_env_dir
+
+    # Should be the same as the original envdir, but with the hash appended
+    assert str(envconfig.envdir).startswith(str(pre_env_dir))
