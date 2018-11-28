@@ -34,7 +34,7 @@ workflows:
             - test
             - release:
                 requires:
-                    -test
+                    - test
         filters:
             branches:
                 only:
