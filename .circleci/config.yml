@@ -25,6 +25,7 @@ jobs:
             # Bump patch for next version
             - run: git checkout develop
             - run: bump2version --verbose --no-tag patch
+            - run: git push origin develop
 
 
 workflows:
