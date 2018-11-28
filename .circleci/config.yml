@@ -16,11 +16,15 @@ jobs:
             - image: circleci/python:3.7
         steps:
             - checkout
-            - run: make release
             - run: pip install bump2version --user
             - run: echo 'export PATH=$PATH:/home/circleci/.local/bin' >> $BASH_ENV
-            - run: bump2version --verbose patch
+            # Tag the current release
+            - run: bump2version --verbose --no-commit none
             - run: git push origin master --tags
+            - run: make release
+            # Bump patch for next version
+            - run: git checkout develop
+            - run: bump2version --verbose --no-tag patch
 
 
 workflows:
