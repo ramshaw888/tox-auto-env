@@ -6,7 +6,9 @@ jobs:
             - image: circleci/python:3.7
         steps:
             - checkout
-            - run: pip install tox
+            - run: pip install tox --user
+            - run: echo 'export PATH=$PATH:/home/circleci/.local/bin' >> $BASH_ENV
+            - run: echo `tox --version`
             - run: tox
 
 
