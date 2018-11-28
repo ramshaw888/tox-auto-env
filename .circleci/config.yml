@@ -11,9 +11,31 @@ jobs:
             - run: echo `tox --version`
             - run: tox
 
+    release:
+        docker:
+            - image: circleci/python:3.7
+        steps:
+            - checkout
+            - run: make release
+            - run: pip install bump2version --user
+            - run: echo 'export PATH=$PATH:/home/circleci/.local/bin' >> $BASH_ENV
+            - run: bump2version --verbose patch
+            - run: git push origin master --tags
+
 
 workflows:
     version: 2
     push:
         jobs:
             - test
+
+    deploy:
+        jobs:
+            - test
+            - release:
+                requires:
+                    -test
+        filters:
+            branches:
+                only:
+                    - master
