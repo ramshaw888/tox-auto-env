@@ -26,7 +26,9 @@ jobs:
             - run: make release
             - run: git push origin master --tags
             # Bump patch for next version
+            - run: git fetch
             - run: git checkout develop
+            - run: git reset --hard origin/develop
             - run: bump2version --verbose --no-tag patch
             - run: git push origin develop
 
