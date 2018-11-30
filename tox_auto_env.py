@@ -15,10 +15,17 @@ hookimpl = pluggy.HookimplMarker('tox')
 
 req_option = '-r'
 
+BOLD = '\033[1m'
+
 
 @hookimpl
 def tox_configure(config):
     set_envdir_for_envconfigs(config.envconfigs)
+
+
+@hookimpl
+def tox_runtest_pre(venv):
+    print('{}{} virtualenv: {}{}'.format(BOLD, venv.name, venv.path, BOLD))
 
 
 def set_envdir_for_envconfigs(envconfigs):
