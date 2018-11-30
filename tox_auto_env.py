@@ -1,6 +1,8 @@
 import pluggy
 import hashlib
 import py
+import shutil
+import os
 
 try:
     from pip.download import PipSession
@@ -26,15 +28,41 @@ def tox_configure(config):
 @hookimpl
 def tox_runtest_pre(venv):
     print('{}{} virtualenv: {}{}'.format(BOLD, venv.name, venv.path, BOLD))
+    create_virtualenv_symlink(
+        str(venv.envconfig.original_envdir),
+        str(venv.envconfig.envdir)
+    )
+
+
+def create_virtualenv_symlink(original_dir, new_dir):
+    """Adds a symlink from the new "{envname}-{hash}" directory, to the
+    original location. This makes it easier to use autocomplete/IDEs that
+    expect the virtualenv in a predictable location"""
+
+    try:
+        # Remove old symlink
+        os.remove(original_dir)
+    except OSError:
+        pass
+
+    try:
+        # Remove the old directory for previously created virtualenvs,
+        # additionally, tox still creates this as an empty dir when running.
+        shutil.rmtree(original_dir)
+    except OSError:
+        pass
+
+    os.symlink(new_dir, original_dir)
 
 
 def set_envdir_for_envconfigs(envconfigs):
     for env in envconfigs:
+        original_envdir = envconfigs[env].envdir
         new_path = '{}-{}'.format(
-            envconfigs[env].envdir,
-            deps_hash(envconfigs[env].deps)
-        )
-        envconfigs[env].envdir = py.path.local(new_path)
+            original_envdir, deps_hash(envconfigs[env].deps))
+        local_new_envdir = py.path.local(new_path)
+        envconfigs[env].envdir = local_new_envdir
+        envconfigs[env].original_envdir = original_envdir
 
 
 def deps_hash(env_deps):
