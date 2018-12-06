@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='tox-auto-env',
-    version='0.0.8',
+    version='0.0.9',
     py_modules=['tox_auto_env'],
     entry_points={'tox': ['tox-auto-env = tox_auto_env']},
     classifiers=['Framework :: tox'],
